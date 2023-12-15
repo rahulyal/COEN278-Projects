@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tas</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <header class="bg-blue-700">
+      <h1><%= @page_title %></h1>
+    </header>
+
+    <section class="flex">
+      <nav class="bg-blue-50 p-6">
+        <%= render partial: 'layouts/cart', locals: {cart: @cart } %>
+        <ul class="text-gray-600 leading-8">
+          <li><a href="/">Home</a></li>
+          <li><a href="/store/contact">Contact</a></li>
+        </ul>
+        <% if session[:user_id] %>
+          <hr class="my-2">
+
+          <ul class="text-gray-300 leading-8">
+            <li><%= link_to 'Orders',   orders_path   %></li>
+            <li><%= link_to 'Products', products_path %></li>
+            <li><%= link_to 'Admins',    users_path    %></li>
+            <li><%= button_to 'Logout', logout_path, method: :delete %></li>
+          </ul>
+        <% else %>
+          <hr class="my-2">
+          <ul class="text-gray-300 leading-8">
+            <li><%= link_to 'Login', login_path %></li>
+          </ul>
+        <% end %>
+      </nav>
+
+      <main class="container mx-auto mt-4 px-5 flex">
+        <%= yield %>
+      </main>
+    </section>
+  </body>
+</html>

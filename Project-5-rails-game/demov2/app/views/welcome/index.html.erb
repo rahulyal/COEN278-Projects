@@ -1,0 +1,27 @@
+<h1>Welcome to a game of Cows and Bulls</h1>
+<p>A random number has been generated.</p>
+<p>Now, you can start guessing</p>
+
+<%= form_with(url: root_path, method: "get") do |form| %>
+  <label for="user_input">Enter a number:</label>
+  <%= form.text_field :user_input %>
+  <%= form.submit "Submit" %>
+<% end %>
+
+<% if @game_over %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
+<% if @user_input %>
+  <p>You entered: <%= @user_input %></p>
+  <p>Cows: <%= @cows %>, Bulls: <%= @bulls %></p>
+<% end %>
+
+<h2>Previously Entered Numbers:</h2>
+<ul>
+  <% @user_inputs.each do |input| %>
+    <li><%= input %></li>
+  <% end %>
+</ul>
+
+<%= link_to "Start New Session", restart_session_path %>

@@ -1,0 +1,44 @@
+<div class="w-full">
+  <%= render 'notice' %>
+
+  <h1 class="font-bold text-xl mb-6 pb-2 border-b-2">
+    tas: The Anything Store
+  </h1>
+
+  <div class="mb-6">
+    <p class="mb-4 italic">Search only works once, so get back to HOME after one search</p>
+    <%= form_tag('store/search', method: :get, class: "flex items-center") do %>
+      <%= text_field_tag(:search, params[:search], placeholder: "Search products", class: "mr-4 px-4 py-2 border border-gray-300 rounded") %>
+      <%= submit_tag("Search", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded") %>
+    <% end %>
+  </div>  
+</h1>
+
+<ul>
+  <% @products.each do |product| %>
+    <li class='flex mb-6'>
+      <%= image_tag(product.image_url,
+        class: 'w-40 h-60 mr-4') %>
+
+      <div>
+        <h2 class="font-bold text-lg mb-3"><%= product.title %></h2>
+
+        <p>
+          <%= sanitize(product.description) %>
+        </p>
+
+        <div class="mt-3">
+          <%= number_to_currency(product.price) %>
+
+          <%= button_to 'Add to Cart',
+                      line_items_path(product_id: product),
+                        form_class: 'inline',
+                        class: 'ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
+
+          <%= button_to 'Product Details', product_path(product), method: :get,form_class:'', class: 'ml-4 mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
+        </div>
+      </div>
+    </li>
+  <% end %>
+</ul>
+</div>
