@@ -1,0 +1,94 @@
+<head>
+    <!-- Minified version -->
+<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+<style>
+    .form-and-stats-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Additional styling for the form and ul */
+    .form-and-stats-container form {
+      flex: 1;
+      margin-right: 20px; /* Adjust as needed */
+    }
+
+    .form-and-stats-container ul {
+      flex: 1.5;
+    }
+    .box-list {
+        list-style: none;
+        padding: 10;
+    }
+
+    .box-item {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 5px;
+        background-color: #f7f7f7;
+    }
+
+    .horizontal-box-list {
+        display: flex;
+        list-style: none;
+        padding: 10;
+    }
+
+    .horizontal-box-list .box-item {
+        flex: 1;
+    }
+  </style>
+</head>
+
+<h1>Welcome, <%= @username %>!</h1>
+<p>Place your bet on dice number(1 to 6)</p>
+<!-- Your game content goes here -->
+
+<div class="form-and-stats-container">
+  <!-- Your game content goes here -->
+  <form action='/homepage' method='post'>
+    bet money: <input type="number" name="betmoney" value=100><br><br>
+    bet on dice: <input type="number" name="guess"><br><br>
+    <input type="submit" value="Bet">
+  </form>
+
+  <ul class="box-list">
+    <li class="box-item">Winnings in session: <%= @won %></li>
+    <li class="box-item">Lost in session: <%= @lost %></li>
+    <li class="box-item">Profit in session: <%= @profit %></li>
+  </ul>
+</div>
+
+<% if session[:error]%>
+    <h3 style="color: red;"><%= session[:message_err] %></h3>
+    <% session[:error] = false %>
+    <% session[:message_err] = nil %>
+<% end %>
+
+
+<% if session[:message]%>
+    <%if session[:result] == 'lost'%>
+        <h3 style="color: red;"><%= session[:message] %></h3>
+        <% session[:message] = nil%>
+    <%else%>
+        <h3 style="color: green;"><%= session[:message] %></h3>
+        <% session[:message] = nil%>
+    <%end%>
+    <h4>The dice rolled to <%= @randomdice%>, Your guess: <%= @guess%>, Your bet: <%= @betmoney%></h4>
+<% end %>
+
+<ul class="horizontal-box-list">
+    <li class="box-item" >Winnings in Total: <%= @current_winnings%></li>
+    <li class="box-item" >Lost in Total: <%= @current_losings%></li>
+    <li class="box-item" >Profit in Total: <%= @current_profits%></li>
+</ul>
+
+<!-- Save session -->
+<form action='/savesession' method='post'>
+    <input type="submit" value="Save Session">
+</form>
+
+<!-- Logout button -->
+<form action="/logout" method="post">
+  <input type="submit" value="Logout">
+</form>
